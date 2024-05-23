@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { getDatabase, ref, push, update, remove, onValue, child } from 'firebase/database';
+import { getDatabase, ref, push, update, remove, onValue } from 'firebase/database';
+import { getAuth } from 'firebase/auth';
 import { Note } from '../note.model';
 
 @Injectable({
@@ -13,13 +14,22 @@ export class NoteService {
   // Agregar una nueva nota
   addNote(note: Note) {
     const db = getDatabase();
-    return push(ref(db, this.dbPath), note);
+    const auth = getAuth();
+    const userId = auth.currentUser?.uid;
+    if (!userId) return Promise.reject('User not authenticated');
+
+    const notesRef = ref(db, `${this.dbPath}/${userId}`);
+    return push(notesRef, note);
   }
 
-  // Obtener todas las notas
+  // Obtener todas las notas del usuario autenticado
   getNotes(callback: (notes: Note[]) => void) {
     const db = getDatabase();
-    const notesRef = ref(db, this.dbPath);
+    const auth = getAuth();
+    const userId = auth.currentUser?.uid;
+    if (!userId) return;
+
+    const notesRef = ref(db, `${this.dbPath}/${userId}`);
     onValue(notesRef, (snapshot) => {
       const data = snapshot.val();
       const notes: Note[] = [];
@@ -33,12 +43,20 @@ export class NoteService {
   // Actualizar una nota
   updateNote(key: string, value: any) {
     const db = getDatabase();
-    return update(ref(db, `${this.dbPath}/${key}`), value);
+    const auth = getAuth();
+    const userId = auth.currentUser?.uid;
+    if (!userId) return Promise.reject('User not authenticated');
+
+    return update(ref(db, `${this.dbPath}/${userId}/${key}`), value);
   }
 
   // Eliminar una nota
   deleteNote(key: string) {
     const db = getDatabase();
-    return remove(ref(db, `${this.dbPath}/${key}`));
+    const auth = getAuth();
+    const userId = auth.currentUser?.uid;
+    if (!userId) return Promise.reject('User not authenticated');
+
+    return remove(ref(db, `${this.dbPath}/${userId}/${key}`));
   }
 }

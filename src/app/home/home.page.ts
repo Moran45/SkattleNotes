@@ -14,7 +14,7 @@ export class HomePage implements OnInit {
   constructor(private noteService: NoteService) {}
 
   ngOnInit() {
-   this.fetchNotes();
+    this.fetchNotes();
   }
 
   fetchNotes() {
@@ -28,12 +28,16 @@ export class HomePage implements OnInit {
       this.noteService.updateNote(this.selectedNote.id, {
         title: this.selectedNote.title,
         content: this.selectedNote.content
+      }).then(() => {
+        this.fetchNotes();
       });
     } else {
       this.noteService.addNote({
         title: this.selectedNote.title,
         content: this.selectedNote.content,
         id: ''
+      }).then(() => {
+        this.fetchNotes();
       });
     }
     this.selectedNote = { id: '', title: '', content: '' }; // Reset the form
@@ -44,6 +48,8 @@ export class HomePage implements OnInit {
   }
 
   deleteNote(id: string) {
-    this.noteService.deleteNote(id);
+    this.noteService.deleteNote(id).then(() => {
+      this.fetchNotes();
+    });
   }
 }
