@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 
 // Importa Firebase
 import { initializeApp } from 'firebase/app';
+import { getDatabase } from "firebase/database";
 
 // Configuración de Firebase
 
@@ -24,6 +25,7 @@ const firebaseConfig = {
 
 // Inicializa Firebase
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 @NgModule({
   declarations: [AppComponent],
