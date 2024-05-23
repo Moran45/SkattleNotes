@@ -32,7 +32,8 @@ const database = getDatabase(app);
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+  
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
