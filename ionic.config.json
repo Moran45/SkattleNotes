@@ -1,0 +1,7 @@
+{
+  "name": "SkattleNotes",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
