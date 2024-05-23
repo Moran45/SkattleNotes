@@ -1,10 +1,12 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>Notas</ion-title>
+        <ion-title>Tus Notas</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <ion-button (click)="fetchNotes()">Mostrar Notas</ion-button>
+
     <ion-list>
         <ion-item *ngFor="let note of notes">
             <ion-label (click)="selectNote(note)">{{ note.title }}</ion-label>

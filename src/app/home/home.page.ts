@@ -14,7 +14,7 @@ export class HomePage implements OnInit {
   constructor(private noteService: NoteService) {}
 
   ngOnInit() {
-    this.fetchNotes();
+   this.fetchNotes();
   }
 
   fetchNotes() {
