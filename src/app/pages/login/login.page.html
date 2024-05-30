@@ -1,18 +1,20 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title>Login</ion-title>
-    </ion-toolbar>
-</ion-header>
-
-<ion-content>
-    <ion-item>
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input [(ngModel)]="email" type="email"></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-label position="stacked">Password</ion-label>
-        <ion-input [(ngModel)]="password" type="password"></ion-input>
-    </ion-item>
-    <ion-button expand="block" (click)="login()">Login</ion-button>
-    <ion-button expand="block" (click)="register()">Register</ion-button>
+<ion-content class="login-content">
+    <div class="login-wrapper">
+        <ion-item>
+            <ion-label position="stacked">Correo Electrónico</ion-label>
+            <ion-input [(ngModel)]="email" type="email" placeholder="ejemplo@correo.com"></ion-input>
+            <ion-icon name="mail-outline" slot="start" style="--color: #000;"></ion-icon>
+        </ion-item>
+        <ion-item>
+            <ion-label position="stacked">Contraseña</ion-label>
+            <ion-input [(ngModel)]="password" type="password" placeholder="********"></ion-input>
+            <ion-icon name="lock-closed-outline" slot="start" style="--color: #000;"></ion-icon>
+        </ion-item>
+        <ion-button expand="block" color="primary" (click)="login()">Iniciar Sesión</ion-button>
+        <ion-button expand="block" fill="outline" (click)="register()">Registrarse</ion-button>
+        <ion-text>
+            <p><a href="#">¿Olvidaste tu contraseña?</a></p>
+            <p><a href="#" (click)="presentTermsAlert()">Términos y condiciones</a></p>
+        </ion-text>
+    </div>
 </ion-content>

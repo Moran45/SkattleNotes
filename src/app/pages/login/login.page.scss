@@ -1,0 +1,44 @@
+.login-content {
+    --background: url('../../../assets/loginbackground.jpg') no-repeat center center / cover;
+}
+
+.login-wrapper {
+    margin: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0);
+    border-radius: 10px;
+}
+
+ion-item {
+    margin-bottom: 20px;
+    background-color: transparent; // Asegurando que el fondo del item sea transparente
+    --background: #ffffff;
+    border-radius: 10px;
+    color: #000;
+}
+
+ion-label {
+    color: #ffffff00; // Cambiado el color del texto a negro
+    background-color: transparent; // Haciendo el fondo del label transparente
+}
+
+ion-icon {
+    margin-right: 10px;
+    color: #000; // Asegurando que el color de los íconos sea negro
+}
+
+ion-button {
+    margin-top: 10px;
+    color: #000; // Asegurando que el texto en los botones sea negro
+}
+
+ion-text p {
+    text-align: center;
+    margin-top: 10px;
+    color: #000; // Asegurando que el texto en ion-text sea negro
+}
+
+ion-text p a {
+    color: #3880ff;
+    text-decoration: none;
+}
