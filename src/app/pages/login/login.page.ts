@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,18 @@ export class LoginPage {
   email: string = '';
   password: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, public alertController: AlertController) {}
 
+  async presentTermsAlert() {
+    const alert = await this.alertController.create({
+      header: 'Términos y Condiciones',
+      message: 'Aquí irán los términos y condiciones de uso.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+  
   async login() {
     try {
       const userCredential = await this.authService.login(this.email, this.password);
