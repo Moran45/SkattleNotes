@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { getDatabase, ref, push, update, remove, onValue } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 import { Note } from '../note.model';
+import { EncryptionService } from '../encryption.service';
+import { Title } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,7 @@ import { Note } from '../note.model';
 export class NoteService {
   private dbPath = '/notes';
 
-  constructor() {}
+  constructor(private encryptionService: EncryptionService) { }
 
   // Agregar una nueva nota
   addNote(note: Note) {
@@ -18,8 +20,15 @@ export class NoteService {
     const userId = auth.currentUser?.uid;
     if (!userId) return Promise.reject('User not authenticated');
 
+    // Encriptar el contenido de la nota
+    const encryptedNote = {
+      ...note,
+      content: this.encryptionService.encrypt(note.content),
+      title: this.encryptionService.encrypt(note.title)
+    };
+
     const notesRef = ref(db, `${this.dbPath}/${userId}`);
-    return push(notesRef, note);
+    return push(notesRef, encryptedNote);
   }
 
   // Obtener todas las notas del usuario autenticado
@@ -34,7 +43,13 @@ export class NoteService {
       const data = snapshot.val();
       const notes: Note[] = [];
       for (const key in data) {
-        notes.push({ id: key, ...data[key] });
+        const decryptedNote = {
+          id: key,
+          ...data[key],
+          content: this.encryptionService.decrypt(data[key].content),
+          title: this.encryptionService.decrypt(data[key].title)
+        };
+        notes.push(decryptedNote);
       }
       callback(notes);
     });
@@ -47,7 +62,13 @@ export class NoteService {
     const userId = auth.currentUser?.uid;
     if (!userId) return Promise.reject('User not authenticated');
 
-    return update(ref(db, `${this.dbPath}/${userId}/${key}`), value);
+    // Encriptar el contenido de la nota antes de actualizar
+    const encryptedValue = {
+      ...value,
+      content: this.encryptionService.encrypt(value.content)
+    };
+
+    return update(ref(db, `${this.dbPath}/${userId}/${key}`), encryptedValue);
   }
 
   // Eliminar una nota

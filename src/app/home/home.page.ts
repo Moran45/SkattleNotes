@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Note } from '../note.model';
 import { NoteService } from '../services/note.service';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-home',
@@ -28,16 +29,12 @@ export class HomePage implements OnInit {
       this.noteService.updateNote(this.selectedNote.id, {
         title: this.selectedNote.title,
         content: this.selectedNote.content
-      }).then(() => {
-        this.fetchNotes();
       });
     } else {
       this.noteService.addNote({
         title: this.selectedNote.title,
         content: this.selectedNote.content,
         id: ''
-      }).then(() => {
-        this.fetchNotes();
       });
     }
     this.selectedNote = { id: '', title: '', content: '' }; // Reset the form
@@ -48,8 +45,6 @@ export class HomePage implements OnInit {
   }
 
   deleteNote(id: string) {
-    this.noteService.deleteNote(id).then(() => {
-      this.fetchNotes();
-    });
+    this.noteService.deleteNote(id);
   }
 }
